@@ -2,13 +2,12 @@ package com.stokkur.exam.demoAccounts.config;
 
 import static com.stokkur.exam.demoAccounts.rest.util.ApiConstant.API_PATH;
 import org.springframework.beans.factory.BeanInitializationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,27 +24,23 @@ import javax.annotation.PostConstruct;
 @Configuration
 @EnableSwagger2
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class AppConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    @Autowired
+    private BasicAuthEntryPoint basicAuthenticationEntryPoint;
 
-
-
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder) {
-
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
-
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         try {
 
         } catch (Exception e) {
             throw new BeanInitializationException("Security configuration failed", e);
         }
-    }
+    }*/
 
+    /**
+     * Configuration for Swagger, tells where to look at for resources
+     */
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
@@ -61,35 +56,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
-                .antMatchers("/swagger-ui/index.html");
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement()
-                .maximumSessions(1) // maximum number of concurrent sessions for one user
-                .and().and()
-                .exceptionHandling()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .httpBasic().authenticationEntryPoint(basicAuthenticationEntryPoint)
                 .and()
                 .csrf()
                 .disable()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeRequests()
-                .antMatchers(API_PATH + "/accounts").permitAll()
-                .antMatchers(API_PATH + "/logs").authenticated()
-                .antMatchers(API_PATH + "/authenticate").permitAll()
-                .antMatchers("/swagger-resources/configuration/ui").permitAll()
-                .antMatchers("/swagger-ui/index.html").permitAll();
+                .antMatchers(HttpMethod.GET, API_PATH + "/accounts/").permitAll()
+                .antMatchers(API_PATH + "/accounts/").authenticated()
+                .anyRequest().permitAll();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        auth.inMemoryAuthentication().withUser("root").password("$2a$04$MMYgXg0X1TMwINjqsLvtJutlnw4m1HWyQpxmkJyGWKwDWTDtyAeOG").roles("ADMIN");
     }
 
 }
