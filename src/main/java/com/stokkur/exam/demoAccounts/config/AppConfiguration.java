@@ -1,7 +1,6 @@
 package com.stokkur.exam.demoAccounts.config;
 
 import static com.stokkur.exam.demoAccounts.rest.util.ApiConstant.API_PATH;
-import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 @EnableSwagger2
 @EnableWebSecurity
@@ -28,15 +25,6 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BasicAuthEntryPoint basicAuthenticationEntryPoint;
-
-    /*@PostConstruct
-    public void init() {
-        try {
-
-        } catch (Exception e) {
-            throw new BeanInitializationException("Security configuration failed", e);
-        }
-    }*/
 
     /**
      * Configuration for Swagger, tells where to look at for resources
