@@ -70,9 +70,8 @@ public class AccountResource {
         if (responseData.getResponseCode() == HttpStatus.OK)
             return ResponseEntity.status(responseData.getResponseCode()).body(responseData.getResponseObject());
 
-        return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "err_create", responseData.getErrorMessage()))
-                .build();
+        return ResponseEntity.status((responseData.getResponseCode()))
+                .body(responseData.getErrorMessage());
     }
 
     @PutMapping("/accounts")

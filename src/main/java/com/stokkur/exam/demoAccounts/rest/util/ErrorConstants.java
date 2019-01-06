@@ -9,6 +9,7 @@ public final class ErrorConstants {
 
     public static final String ERR_RECORD_NOT_FOUND = "Element not found";
     public static final String ERR_MALFORMED_REQUEST = "Request's format error";
+    public static final String ERR_DUPLICATED = "Duplicated Entry";
 
     private ErrorConstants() {
     }

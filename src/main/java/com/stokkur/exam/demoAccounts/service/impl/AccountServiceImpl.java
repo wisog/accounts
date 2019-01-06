@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +28,15 @@ public class AccountServiceImpl implements AccountService {
     private ResponseWrapper response;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private AccountRepository accountRepository;
+
+    private Boolean alreadyExists(String username){
+        Account account = accountRepository.findAccountByUsername(username);
+        return (account != null) ? true : false;
+    }
 
     @Override
     public ResponseWrapper findAll(){
@@ -78,6 +87,13 @@ public class AccountServiceImpl implements AccountService {
     public ResponseWrapper save(AccountDto accountDto) {
         response = new ResponseWrapper();
 
+        if ( alreadyExists(accountDto.getUsername())){
+            response.setErrorMessage(ErrorConstants.ERR_DUPLICATED);
+            response.setResponseCode(HttpStatus.BAD_REQUEST);
+            return response;
+        }
+
+        accountDto.setPassword( passwordEncoder.encode(accountDto.getPassword()) );
         Account account = AccountDtoMapper.toModel(accountDto);
         if (account != null) {
             accountRepository.save(account);
@@ -93,11 +109,11 @@ public class AccountServiceImpl implements AccountService {
     public ResponseWrapper update(AccountDto accountDto) {
         response = new ResponseWrapper();
 
-        Account account = accountRepository.findAccountByUsername(accountDto.getUsername());
-        if (account != null) { //existing account
+        if ( alreadyExists(accountDto.getUsername())){ //existing account
+            Account account = accountRepository.findAccountByUsername(accountDto.getUsername());
             //at this time, only email & password can be updated
             account.setEmail(accountDto.getEmail());
-            account.setPassword(accountDto.getPassword());
+            account.setPassword( passwordEncoder.encode(accountDto.getPassword()) );
             accountRepository.save(account);
             response.setResponseCode(HttpStatus.OK);
             response.setResponseObject(account);
