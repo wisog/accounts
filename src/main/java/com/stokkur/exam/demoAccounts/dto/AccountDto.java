@@ -35,7 +35,7 @@ public class AccountDto implements Serializable
     @JsonProperty("role")
     private RoleDto role;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = 5360269125289502719L;
 
     @JsonProperty("id")

@@ -6,14 +6,14 @@ import com.stokkur.exam.demoAccounts.rest.util.ResponseWrapper;
 
 public interface AccountService {
 
-    public ResponseWrapper save(AccountDto accountDto);
+    ResponseWrapper save(AccountDto accountDto);
 
-    public ResponseWrapper findById(String id);
+    ResponseWrapper findById(String id);
 
-    public ResponseWrapper findAll();
+    ResponseWrapper findAll();
 
-    public ResponseWrapper delete(String id);
+    ResponseWrapper delete(String id);
 
-    public ResponseWrapper update(AccountDto accountDto);
+    ResponseWrapper update(AccountDto accountDto);
 
 }

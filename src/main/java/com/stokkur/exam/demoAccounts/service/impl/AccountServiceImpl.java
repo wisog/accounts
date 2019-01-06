@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
 
     private Boolean alreadyExists(String username){
         Account account = accountRepository.findAccountByUsername(username);
-        return (account != null) ? true : false;
+        return account != null ? true : false;
     }
 
     @Override

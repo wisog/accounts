@@ -4,7 +4,6 @@ package com.stokkur.exam.demoAccounts.service.util;
 import com.stokkur.exam.demoAccounts.dto.AccountDto;
 import com.stokkur.exam.demoAccounts.model.Account;
 import com.stokkur.exam.demoAccounts.model.Role;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AccountDtoMapper {
 
@@ -15,7 +14,7 @@ public class AccountDtoMapper {
     /**
      * Mapper for convert Repository entity to AccountDto
      *
-     * @param entity
+     * @param entity An Account object
      * @return AccountDto
      */
     public static AccountDto toDto(Account entity) {

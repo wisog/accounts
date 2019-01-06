@@ -39,7 +39,7 @@ public class DemoAccountsApplicationTests {
 				port + API_PATH + "/accounts/";
 	}
 
-	private String newAccountJSON = "{\n" +
+	private final String newAccountJSON = "{\n" +
 			"    \"username\": \"user2\",\n" +
 			"    \"email\": \"mail@stokkur.com\",\n" +
 			"    \"password\": \"secret\"\n" +

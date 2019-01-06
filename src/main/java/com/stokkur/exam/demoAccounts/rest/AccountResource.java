@@ -8,7 +8,6 @@ import com.stokkur.exam.demoAccounts.rest.util.ResponseWrapper;
 import com.stokkur.exam.demoAccounts.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class AccountResource {
 
     private final Logger LOG = LoggerFactory.getLogger(AccountResource.class);
 
-    @Autowired
+
     private final AccountService accountService;
 
     private static final String ENTITY_NAME = "accounts";
