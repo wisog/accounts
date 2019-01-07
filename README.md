@@ -36,3 +36,29 @@ An API documentation web page is available on
 ```bash
 http://localhost:8080/swagger-ui.html
 ```
+
+# Use
+The API have Basic Authentication for POST, PUT and DELETE requests
+User & Password are:
+```bash
+user: root
+pwd: toor 
+```
+Any GET request is permited.
+
+# Docs
+
+```bash
+accounts - src
+├── com.stokkur.exam.demoAccounts/ - Java source code.
+|   ├── config/ - System Security & Swagger configurations.
+|   ├── dto/ - The Data Transfer Object classes using Jackson annotations
+|   ├── model/ - Entities for model objects
+|   ├── repository/ - Spring Crus Repositories for data Access
+|   ├── rest/ - Parent package for REST services code
+|   |   ├── util/ - Custom classes for all services
+|   ├── service/ - Parent package for the services logic
+|   |   └── util/ - Util classes as Helpers for services including objects mapping
+|   |   └── impl/ - Classes implementing service logic
+
+```
