@@ -93,7 +93,7 @@ public class DemoAccountsApplicationTests {
 				.content(newAccountJSON)
 		).andDo(print()).andExpect(
 				status().isBadRequest())
-				.andExpect(content().string("Duplicated Entry"));
+				.andExpect(content().string("{ \"error_message\":\"Duplicated Entry\", \"data\":null}"));
 	}
 }
 

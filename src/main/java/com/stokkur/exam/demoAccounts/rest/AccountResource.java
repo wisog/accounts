@@ -70,7 +70,7 @@ public class AccountResource {
             return ResponseEntity.status(responseData.getResponseCode()).body(responseData.getResponseObject());
 
         return ResponseEntity.status((responseData.getResponseCode()))
-                .body(responseData.getErrorMessage());
+                .body(responseData.toString());
     }
 
     @PutMapping("/accounts")
